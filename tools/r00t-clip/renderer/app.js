@@ -6,16 +6,20 @@ async function init() {
   const state = await api.getState()
 
   isRunning = state.isRunning
-  document.getElementById('log-path').textContent = state.logPath
-
-  document.getElementById('s-ts').checked    = state.settings.timestampEntries
-  document.getElementById('s-filter').value  = state.settings.filterMode
-  document.getElementById('s-min').value     = state.settings.minLength
+  document.getElementById('log-path').textContent    = state.logPath
+  document.getElementById('s-ts').checked            = state.settings.timestampEntries
+  document.getElementById('s-filter').value          = state.settings.filterMode
+  document.getElementById('s-min').value             = state.settings.minLength
+  document.getElementById('s-startup').checked       = state.openAtStartup
 
   updateUI()
   updateCount(state.entryCount)
 
   api.onNewEntry(onEntry)
+  api.onStateChanged((running) => {
+    isRunning = running
+    updateUI()
+  })
 }
 
 // ── toggle ────────────────────────────────────────────────────────────────────
@@ -70,12 +74,12 @@ function onEntry(data) {
   item.className = 'feed-item' + (data.label === 'NOTE' ? ' is-note' : '')
 
   const time    = new Date(data.time).toLocaleTimeString()
-  const preview = data.text.length > 90
-    ? data.text.slice(0, 90).trimEnd() + '…'
+  const preview = data.text.length > 88
+    ? data.text.slice(0, 88).trimEnd() + '…'
     : data.text
 
   const labelHtml = data.label
-    ? `<span class="feed-item-label">${escape(data.label)}</span>`
+    ? `<span class="feed-item-label">${escHtml(data.label)}</span>`
     : ''
 
   item.innerHTML =
@@ -92,8 +96,7 @@ async function clearLog() {
   if (!confirm('Delete everything in the log file?')) return
   await api.clearLog()
   updateCount(0)
-  const feed = document.getElementById('feed')
-  feed.innerHTML = '<p class="feed-empty">Log cleared.</p>'
+  document.getElementById('feed').innerHTML = '<p class="feed-empty">Log cleared.</p>'
 }
 
 // ── settings ──────────────────────────────────────────────────────────────────
@@ -106,12 +109,16 @@ async function pushSettings() {
   })
 }
 
+async function toggleStartup() {
+  await api.setStartup(document.getElementById('s-startup').checked)
+}
+
 // ── helpers ───────────────────────────────────────────────────────────────────
 
 function updateCount(n) {
   const badge = document.getElementById('count-badge')
   badge.textContent = `${n} saved`
-  badge.classList.toggle('has-entries', n > 0)
+  badge.classList.toggle('active', n > 0)
 }
 
 function escHtml(str) {
@@ -121,7 +128,5 @@ function escHtml(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
 }
-
-// ── start ─────────────────────────────────────────────────────────────────────
 
 init()

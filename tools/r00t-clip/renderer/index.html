@@ -13,7 +13,7 @@
   <span class="app-name">r00t<span class="accent">Clip</span></span>
   <div class="win-btns">
     <button onclick="api.minimizeApp()" title="Minimize">—</button>
-    <button onclick="api.closeApp()"   title="Close" class="close-btn">✕</button>
+    <button onclick="api.hideApp()" title="Hide to tray" class="hide-btn">✕</button>
   </div>
 </div>
 
@@ -78,6 +78,11 @@
       <input type="number" id="s-min" value="1" min="1" max="500" onchange="pushSettings()" />
     </div>
 
+    <div class="setting-row">
+      <span>Start with Windows</span>
+      <input type="checkbox" id="s-startup" onchange="toggleStartup()" />
+    </div>
+
   </div>
 </div>
 
@@ -94,6 +99,9 @@
     <button class="action-btn danger" onclick="clearLog()">clear log</button>
   </div>
 </div>
+
+<!-- ── TRAY HINT ─────────────────────────────────────────────────────────── -->
+<div class="tray-hint">✕ hides to system tray &nbsp;·&nbsp; right-click tray icon to quit</div>
 
 <script src="app.js"></script>
 </body>

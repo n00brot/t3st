@@ -5,6 +5,7 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
+    "icon": "node scripts/create-icon.js",
     "build": "electron-builder --win"
   },
   "build": {
@@ -22,7 +23,9 @@
     ],
     "win": {
       "target": "nsis",
-      "icon": "assets/icon.ico"
+      "icon": "assets/icon.png",
+      "sign": null,
+      "signAndEditExecutable": false
     },
     "nsis": {
       "oneClick": false,

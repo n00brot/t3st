@@ -1,9 +1,14 @@
-const { app, BrowserWindow, ipcMain, clipboard, dialog, shell } = require('electron')
+const {
+  app, BrowserWindow, ipcMain, clipboard,
+  dialog, shell, Tray, Menu, nativeImage,
+} = require('electron')
 const fs   = require('fs')
 const path = require('path')
 const os   = require('os')
 
-let win
+// ── state ─────────────────────────────────────────────────────────────────────
+
+let win, tray
 let pollInterval = null
 let lastClip     = ''
 let isRunning    = false
@@ -18,7 +23,7 @@ let settings = {
   maxLength: 50000,
 }
 
-// ── helpers ───────────────────────────────────────────────────────────────────
+// ── log helpers ───────────────────────────────────────────────────────────────
 
 function ensureLogDir() {
   const dir = path.dirname(logPath)
@@ -29,9 +34,7 @@ function buildEntry(text, label) {
   let entry = ''
   if (settings.timestampEntries) {
     const ts = new Date().toISOString().replace('T', ' ').slice(0, 19)
-    entry += label
-      ? `[${ts}] [${label}]\n`
-      : `[${ts}]\n`
+    entry += label ? `[${ts}] [${label}]\n` : `[${ts}]\n`
   } else if (label) {
     entry += `[${label}]\n`
   }
@@ -49,7 +52,7 @@ function matchesFilter(text) {
   return true
 }
 
-// ── polling ───────────────────────────────────────────────────────────────────
+// ── clipboard polling ─────────────────────────────────────────────────────────
 
 function startPolling() {
   lastClip = clipboard.readText()
@@ -64,6 +67,7 @@ function startPolling() {
       lastClip = current
       writeEntry(current)
       entryCount++
+      updateTray()
       win?.webContents.send('new-entry', {
         text:  current,
         time:  new Date().toISOString(),
@@ -79,12 +83,55 @@ function stopPolling() {
   isRunning = false
 }
 
+// ── tray ──────────────────────────────────────────────────────────────────────
+
+function buildTrayMenu() {
+  return Menu.buildFromTemplate([
+    {
+      label: isRunning ? '■  Stop Capturing' : '▶  Start Capturing',
+      click() {
+        isRunning ? stopPolling() : startPolling()
+        updateTray()
+        win?.webContents.send('state-changed', isRunning)
+      },
+    },
+    { type: 'separator' },
+    {
+      label: 'Show Window',
+      click() { win?.show(); win?.focus() },
+    },
+    { type: 'separator' },
+    {
+      label: 'Quit r00t Clip',
+      click() { app.isQuiting = true; app.quit() },
+    },
+  ])
+}
+
+function updateTray() {
+  if (!tray) return
+  const status = isRunning ? 'Capturing' : 'Paused'
+  tray.setToolTip(`r00t Clip  ·  ${status}  ·  ${entryCount} saved`)
+  tray.setContextMenu(buildTrayMenu())
+}
+
+function createTray() {
+  const iconPath = path.join(__dirname, 'assets', 'icon.png')
+  const img = fs.existsSync(iconPath)
+    ? nativeImage.createFromPath(iconPath).resize({ width: 16, height: 16 })
+    : nativeImage.createEmpty()
+
+  tray = new Tray(img)
+  tray.on('double-click', () => { win?.show(); win?.focus() })
+  updateTray()
+}
+
 // ── window ────────────────────────────────────────────────────────────────────
 
 function createWindow() {
   win = new BrowserWindow({
     width: 480,
-    height: 700,
+    height: 720,
     resizable: false,
     frame: false,
     backgroundColor: '#0a0a0a',
@@ -94,26 +141,48 @@ function createWindow() {
       nodeIntegration: false,
     },
   })
+
   win.loadFile(path.join(__dirname, 'renderer', 'index.html'))
+
+  win.on('close', (e) => {
+    if (!app.isQuiting) {
+      e.preventDefault()
+      win.hide()
+    }
+  })
 }
 
-app.whenReady().then(createWindow)
+// ── lifecycle ─────────────────────────────────────────────────────────────────
 
-app.on('window-all-closed', () => {
-  stopPolling()
-  if (process.platform !== 'darwin') app.quit()
+app.isQuiting = false
+
+app.whenReady().then(() => {
+  createWindow()
+  createTray()
 })
 
-app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) createWindow()
+app.on('window-all-closed', () => {
+  // intentionally empty — keep running in tray
+})
+
+app.on('before-quit', () => {
+  app.isQuiting = true
+  stopPolling()
 })
 
 // ── IPC ───────────────────────────────────────────────────────────────────────
 
-ipcMain.handle('get-state', () => ({ isRunning, logPath, settings, entryCount }))
+ipcMain.handle('get-state', () => ({
+  isRunning,
+  logPath,
+  settings,
+  entryCount,
+  openAtStartup: app.getLoginItemSettings().openAtLogin,
+}))
 
 ipcMain.handle('toggle', () => {
   isRunning ? stopPolling() : startPolling()
+  updateTray()
   return isRunning
 })
 
@@ -147,12 +216,14 @@ ipcMain.handle('clear-log', () => {
   ensureLogDir()
   fs.writeFileSync(logPath, '', 'utf8')
   entryCount = 0
+  updateTray()
 })
 
 ipcMain.handle('save-note', (_, text) => {
   if (!text.trim()) return
   writeEntry(text.trim(), 'NOTE')
   entryCount++
+  updateTray()
   win?.webContents.send('new-entry', {
     text:  text.trim(),
     time:  new Date().toISOString(),
@@ -165,5 +236,10 @@ ipcMain.handle('update-settings', (_, patch) => {
   settings = { ...settings, ...patch }
 })
 
+ipcMain.handle('set-startup', (_, enable) => {
+  app.setLoginItemSettings({ openAtLogin: enable })
+})
+
 ipcMain.handle('minimize-app', () => win?.minimize())
-ipcMain.handle('close-app',   () => app.quit())
+ipcMain.handle('hide-app',    () => win?.hide())
+ipcMain.handle('close-app',   () => { app.isQuiting = true; app.quit() })
