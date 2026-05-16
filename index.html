@@ -3,26 +3,153 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Projects</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: system-ui, sans-serif; background: #f9f9f7; color: #1a1a1a; padding: 60px 24px; }
-    .container { max-width: 640px; margin: 0 auto; }
-    h1 { font-size: 2rem; font-weight: 600; margin-bottom: 8px; }
-    p { color: #666; margin-bottom: 40px; }
-    .card { background: white; border: 1px solid #e5e5e5; border-radius: 12px; padding: 24px; margin-bottom: 16px; }
-    .card h2 { font-size: 1.1rem; margin-bottom: 6px; }
-    .card p { color: #888; font-size: 0.9rem; margin: 0; }
-  </style>
+  <title>r00t — tools. builds. dev.</title>
+  <meta name="description" content="Free developer tools, open-source builds and resources by nissy." />
+  <meta name="keywords" content="developer tools, web dev, javascript, css, html, free tools" />
+  <meta name="author" content="nissy" />
+  <meta property="og:title" content="r00t — tools. builds. dev." />
+  <meta property="og:description" content="Free developer tools and open-source builds by nissy." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+<nav>
+  <a href="index.html" class="nav-logo">r00t<span>.dev</span></a>
+  <div class="nav-links">
+    <a href="tools.html">tools</a>
+    <a href="derdiedas.html">derdiedas</a>
+    <a href="index.html#about">about</a>
+    <a href="hire.html" class="nav-cta">hire me</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">// free tools &nbsp;·&nbsp; open source &nbsp;·&nbsp; no tracking</div>
+  <h1>Tools.<br/><span class="accent">Builds.</span><br/>Resources.</h1>
+  <p>A personal space for developer tools, experiments and open-source projects. Everything runs in the browser. Everything is free.</p>
+  <div class="hero-actions">
+    <a href="tools.html" class="btn btn-primary">browse tools</a>
+    <a href="hire.html" class="btn btn-ghost">hire me →</a>
+  </div>
+</div>
+
+<!-- TOOLS PREVIEW -->
+<section class="section">
   <div class="container">
-    <h1>Hi, I build things for the web.</h1>
-    <p>Websites, tools, and systems — built fast and ready to launch.</p>
-    <div class="card">
-      <h2>Project one coming soon</h2>
-      <p>Landing pages, booking systems, dashboards — ask me what you need.</p>
+    <p class="section-label">// tools</p>
+    <h2>Developer Tools</h2>
+    <p class="section-sub">No login. No tracking. Everything runs directly in your browser.</p>
+    <div class="grid-3">
+      <a href="tools.html#color" class="card">
+        <div class="card-icon">🎨</div>
+        <span class="tag">CSS</span>
+        <h3>Color Converter</h3>
+        <p>HEX ↔ RGB ↔ HSL with live preview and one-click copy.</p>
+      </a>
+      <a href="tools.html#base64" class="card">
+        <div class="card-icon">🔐</div>
+        <span class="tag">Encoding</span>
+        <h3>Base64 Encoder</h3>
+        <p>Encode or decode text to Base64 instantly.</p>
+      </a>
+      <a href="tools.html#json" class="card">
+        <div class="card-icon">{}</div>
+        <span class="tag">JSON</span>
+        <h3>JSON Formatter</h3>
+        <p>Format, minify and validate JSON with error highlighting.</p>
+      </a>
+      <a href="tools.html#shadow" class="card">
+        <div class="card-icon">🌑</div>
+        <span class="tag">CSS</span>
+        <h3>Shadow Generator</h3>
+        <p>Build a CSS box-shadow visually and copy the result.</p>
+      </a>
+      <a href="tools.html#lorem" class="card">
+        <div class="card-icon">📝</div>
+        <span class="tag">Text</span>
+        <h3>Lorem Ipsum</h3>
+        <p>Generate placeholder text by word, sentence or paragraph.</p>
+      </a>
+      <a href="tools.html#gradient" class="card">
+        <div class="card-icon">🌈</div>
+        <span class="tag">CSS</span>
+        <h3>Gradient Generator</h3>
+        <p>Build linear and radial CSS gradients visually and copy the code.</p>
+      </a>
     </div>
   </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <p class="section-label">// about</p>
+        <h2>Hey, I'm nissy.</h2>
+        <p>I build websites, tools and systems — fast, clean and without unnecessary overhead. <strong>r00t</strong> is my personal space for experiments and open-source work.</p>
+        <p>I also do freelance web design for businesses worldwide. Check out <strong><a href="hire.html" style="color:var(--accent);text-decoration:none;">hire me</a></strong> if you need a site built.</p>
+        <div class="skills">
+          <span class="skill">HTML</span>
+          <span class="skill">CSS</span>
+          <span class="skill">JavaScript</span>
+          <span class="skill">Node.js</span>
+          <span class="skill">Git</span>
+          <span class="skill">Vercel</span>
+          <span class="skill">Express</span>
+        </div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat">
+          <div class="num">5+</div>
+          <div class="lbl">tools live</div>
+        </div>
+        <div class="stat">
+          <div class="num">0€</div>
+          <div class="lbl">always free</div>
+        </div>
+        <div class="stat">
+          <div class="num">∅</div>
+          <div class="lbl">no tracking</div>
+        </div>
+        <div class="stat">
+          <div class="num">∞</div>
+          <div class="lbl">more coming</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HIRE BANNER -->
+<section class="section">
+  <div class="container">
+    <div class="portfolio-banner">
+      <div>
+        <p class="section-label">// freelance</p>
+        <h3>Need a website built?</h3>
+        <p>I build clean, modern websites for businesses — delivered in 3–5 days, fixed price, worldwide.</p>
+      </div>
+      <a href="hire.html" class="btn btn-primary">hire me →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <span>r00t — made by nissy</span>
+    <div class="footer-links">
+      <a href="tools.html">tools</a>
+      <a href="derdiedas.html">derdiedas</a>
+      <a href="hire.html">hire me</a>
+    </div>
+    <span>© 2026</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>

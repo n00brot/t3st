@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Artikel — r00t</title>
+  <meta name="description" content="Web Development Artikel auf Deutsch — klare Erklärungen, echte Beispiele, kein Padding." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">r00t<span>.dev</span></a>
+  <div class="nav-links">
+    <a href="tools.html">tools</a>
+    <a href="articles.html" class="active">artikel</a>
+    <a href="index.html#about">über mich</a>
+    <a href="hire.html" class="nav-cta">hire me</a>
+  </div>
+</nav>
+
+<div class="container" style="padding-top:60px; padding-bottom:100px;">
+  <p class="section-label">// artikel</p>
+  <h1 class="page-title">Web Dev auf Deutsch</h1>
+  <p class="section-sub">Keine lange Einleitung, kein Padding — nur das was du wirklich brauchst.</p>
+
+  <div class="filter-bar">
+    <button class="filter active" onclick="filterArts(this,'all')">alle</button>
+    <button class="filter" onclick="filterArts(this,'css')">CSS</button>
+    <button class="filter" onclick="filterArts(this,'javascript')">JavaScript</button>
+    <button class="filter" onclick="filterArts(this,'git')">Git</button>
+    <button class="filter" onclick="filterArts(this,'performance')">Performance</button>
+    <button class="filter" onclick="filterArts(this,'tools')">Tools</button>
+  </div>
+
+  <div class="articles-grid" id="articles-grid">
+
+    <a class="article-card" data-cat="css" href="#">
+      <span class="cat-tag">CSS</span>
+      <h3>CSS Custom Properties richtig nutzen</h3>
+      <p>Warum CSS-Variablen mehr können als nur Farben speichern — und wie du sie für Themes, Dark Mode und dynamische Styles einsetzt.</p>
+      <div class="article-footer">
+        <span class="read-time">5 min</span>
+        <span class="read-more">lesen →</span>
+      </div>
+    </a>
+
+    <a class="article-card" data-cat="css" href="#">
+      <span class="cat-tag">CSS</span>
+      <h3>Flexbox vs. Grid: Wann benutze ich was?</h3>
+      <p>Der häufigste Fehler im Layout — wann Flexbox sinnvoller ist als Grid und wann du beide kombinieren solltest.</p>
+      <div class="article-footer">
+        <span class="read-time">6 min</span>
+        <span class="read-more">lesen →</span>
+      </div>
+    </a>
+
+    <a class="article-card" data-cat="css" href="#">
+      <span class="cat-tag">CSS</span>
+      <h3>Dark Mode ohne JavaScript</h3>
+      <p>prefers-color-scheme, CSS-Variablen und ein Toggle — alles mit reinem CSS, kein JS nötig.</p>
+      <div class="article-footer">
+        <span class="read-time">5 min</span>
+        <span class="read-more">lesen →</span>
+      </div>
+    </a>
+
+    <a class="article-card" data-cat="javascript" href="#">
+      <span class="cat-tag">JavaScript</span>
+      <h3>Array-Methoden die jeder kennen sollte</h3>
+      <p>map, filter, reduce, find — mit echten Beispielen erklärt, die du sofort in deinen Projekten nutzen kannst.</p>
+      <div class="article-footer">
+        <span class="read-time">7 min</span>
+        <span class="read-more">lesen →</span>
+      </div>
+    </a>
+
+    <a class="article-card" data-cat="javascript" href="#">
+      <span class="cat-tag">JavaScript</span>
+      <h3>Async/Await einfach erklärt</h3>
+      <p>Was Promises sind, warum async/await sie lesbarer macht, und wie du typische Fehler mit try/catch vermeidest.</p>
+      <div class="article-footer">
+        <span class="read-time">8 min</span>
+        <span class="read-more">lesen →</span>
+      </div>
+    </a>
+
+    <a class="article-card" data-cat="javascript" href="#">
+      <span class="cat-tag">JavaScript</span>
+      <h3>LocalStorage richtig nutzen</h3>
+      <p>Wann LocalStorage sinnvoll ist, wie du Daten serialisierst und welche Limits du kennen musst.</p>
+      <div class="article-footer">
+        <span class="read-time">4 min</span>
+        <span class="read-more">lesen →</span>
+      </div>
+    </a>
+
+    <a class="article-card" data-cat="git" href="#">
+      <span class="cat-tag">Git</span>
+      <h3>Git-Befehle für den Alltag</h3>
+      <p>Die 15 Git-Befehle die du wirklich brauchst — von commit bis rebase, mit konkreten Anwendungsfällen.</p>
+      <div class="article-footer">
+        <span class="read-time">6 min</span>
+        <span class="read-more">lesen →</span>
+      </div>
+    </a>
+
+    <a class="article-card" data-cat="git" href="#">
+      <span class="cat-tag">Git</span>
+      <h3>Saubere Commit-Messages schreiben</h3>
+      <p>Conventional Commits, gute Beschreibungen und warum deine Commit-Historie auch nach 6 Monaten noch lesbar sein sollte.</p>
+      <div class="article-footer">
+        <span class="read-time">4 min</span>
+        <span class="read-more">lesen →</span>
+      </div>
+    </a>
+
+    <a class="article-card" data-cat="performance" href="#">
+      <span class="cat-tag">Performance</span>
+      <h3>Website-Performance in 10 Minuten verbessern</h3>
+      <p>Images, Fonts, Core Web Vitals — die wichtigsten Quick-Wins für schnellere Ladezeiten ohne viel Aufwand.</p>
+      <div class="article-footer">
+        <span class="read-time">8 min</span>
+        <span class="read-more">lesen →</span>
+      </div>
+    </a>
+
+    <a class="article-card" data-cat="performance" href="#">
+      <span class="cat-tag">Performance</span>
+      <h3>Bilder richtig optimieren fürs Web</h3>
+      <p>WebP, lazy loading, srcset — wie du Bilder ohne sichtbaren Qualitätsverlust auf ein Minimum reduzierst.</p>
+      <div class="article-footer">
+        <span class="read-time">6 min</span>
+        <span class="read-more">lesen →</span>
+      </div>
+    </a>
+
+    <a class="article-card" data-cat="tools" href="#">
+      <span class="cat-tag">Tools</span>
+      <h3>VS Code Extensions die ich täglich nutze</h3>
+      <p>10 Extensions die deinen Workflow wirklich verbessern — ohne den Editor zu verlangsamen.</p>
+      <div class="article-footer">
+        <span class="read-time">5 min</span>
+        <span class="read-more">lesen →</span>
+      </div>
+    </a>
+
+    <a class="article-card" data-cat="tools" href="#">
+      <span class="cat-tag">Tools</span>
+      <h3>Terminal-Befehle die jeder Dev kennen sollte</h3>
+      <p>Von ls bis grep — die Terminal-Grundlagen die du brauchst, ohne alles auswendig zu lernen.</p>
+      <div class="article-footer">
+        <span class="read-time">7 min</span>
+        <span class="read-more">lesen →</span>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span>r00t — made by <a href="https://nissy-portfolio-pi.vercel.app">nissy</a></span>
+    <div class="footer-links">
+      <a href="tools.html">tools</a>
+      <a href="articles.html">artikel</a>
+      <a href="hire.html">hire me</a>
+    </div>
+    <span>© 2026 — free forever</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

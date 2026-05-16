@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>r00t Clip</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ── TITLEBAR ──────────────────────────────────────────────────────────── -->
+<div class="titlebar">
+  <span class="app-name">r00t<span class="accent">Clip</span></span>
+  <div class="win-btns">
+    <button onclick="api.minimizeApp()" title="Minimize">—</button>
+    <button onclick="api.closeApp()"   title="Close" class="close-btn">✕</button>
+  </div>
+</div>
+
+<!-- ── STATUS ────────────────────────────────────────────────────────────── -->
+<div class="status-bar">
+  <div class="status-dot" id="status-dot"></div>
+  <span id="status-text">Paused</span>
+  <span class="count-badge" id="count-badge">0 saved</span>
+</div>
+
+<!-- ── MAIN TOGGLE ───────────────────────────────────────────────────────── -->
+<div class="px">
+  <button class="toggle-btn" id="toggle-btn" onclick="handleToggle()">
+    <span id="toggle-icon">▶</span>
+    <span id="toggle-label">Start Capturing</span>
+  </button>
+</div>
+
+<!-- ── LIVE FEED ─────────────────────────────────────────────────────────── -->
+<div class="px section">
+  <p class="label">// recent clips</p>
+  <div class="feed" id="feed">
+    <p class="feed-empty">Nothing captured yet — press Start.</p>
+  </div>
+</div>
+
+<!-- ── MANUAL NOTE ───────────────────────────────────────────────────────── -->
+<div class="px section">
+  <p class="label">// save a note</p>
+  <div class="note-row">
+    <input
+      class="note-input"
+      id="note-input"
+      type="text"
+      placeholder="Type anything to save to your log…"
+      onkeydown="if(event.key==='Enter') saveNote()"
+    />
+    <button class="note-btn" onclick="saveNote()">save</button>
+  </div>
+</div>
+
+<!-- ── SETTINGS ──────────────────────────────────────────────────────────── -->
+<div class="px section">
+  <p class="label">// settings</p>
+  <div class="settings">
+
+    <div class="setting-row">
+      <span>Timestamps in log</span>
+      <input type="checkbox" id="s-ts" checked onchange="pushSettings()" />
+    </div>
+
+    <div class="setting-row">
+      <span>Capture filter</span>
+      <select id="s-filter" onchange="pushSettings()">
+        <option value="all">All text</option>
+        <option value="urls">URLs only</option>
+      </select>
+    </div>
+
+    <div class="setting-row">
+      <span>Min. length (chars)</span>
+      <input type="number" id="s-min" value="1" min="1" max="500" onchange="pushSettings()" />
+    </div>
+
+  </div>
+</div>
+
+<!-- ── LOG FILE ──────────────────────────────────────────────────────────── -->
+<div class="px section">
+  <p class="label">// log file</p>
+  <div class="path-box">
+    <span class="path-text" id="log-path">~/r00t-clip/clips.txt</span>
+    <button class="icon-btn" onclick="api.browsePath().then(p => document.getElementById('log-path').textContent = p)" title="Change path">📁</button>
+    <button class="icon-btn" onclick="api.openFolder()" title="Open folder">🗂</button>
+  </div>
+  <div class="action-row">
+    <button class="action-btn" onclick="api.openFile()">open file</button>
+    <button class="action-btn danger" onclick="clearLog()">clear log</button>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

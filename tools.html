@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tools — r00t</title>
+  <meta name="description" content="Free developer tools that run directly in the browser — no login, no tracking." />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">r00t<span>.dev</span></a>
+  <div class="nav-links">
+    <a href="tools.html" class="active">tools</a>
+    <a href="derdiedas.html">derdiedas</a>
+    <a href="index.html#about">about</a>
+    <a href="hire.html" class="nav-cta">hire me</a>
+  </div>
+</nav>
+
+<div class="container" style="padding-top:60px; padding-bottom:100px;">
+  <p class="section-label">// tools</p>
+  <h1 class="page-title">Developer Tools</h1>
+  <p class="section-sub">Everything runs in the browser — no server, no login, no tracking.</p>
+
+  <div class="tools-grid">
+
+    <!-- ── COLOR CONVERTER ─────────────────────────────────────────────── -->
+    <div class="tool-widget" id="color">
+      <div class="tool-header">
+        <span class="tool-icon">🎨</span>
+        <h3>Color Converter</h3>
+      </div>
+      <div class="tool-body">
+        <div class="row">
+          <input type="color" id="color-pick" value="#2563eb"
+            style="width:44px;height:36px;border:none;padding:0;border-radius:6px;cursor:pointer;" />
+          <input class="input" id="color-hex" placeholder="#2563eb" style="flex:1;" />
+        </div>
+        <div class="color-swatch" id="color-swatch" style="background:#2563eb;"></div>
+        <div class="output" id="color-rgb"  onclick="copyOut(this)">rgb(37, 99, 235)</div>
+        <div class="output" id="color-hsl"  onclick="copyOut(this)">hsl(221, 83%, 53%)</div>
+        <div class="output" id="color-css"  onclick="copyOut(this)">--color: #2563eb</div>
+      </div>
+    </div>
+
+    <!-- ── BASE64 ───────────────────────────────────────────────────────── -->
+    <div class="tool-widget" id="base64">
+      <div class="tool-header">
+        <span class="tool-icon">🔐</span>
+        <h3>Base64 Encoder / Decoder</h3>
+      </div>
+      <div class="tool-body">
+        <div class="row">
+          <button class="btn-sm active" id="b64-enc" onclick="setB64('encode')">Encode</button>
+          <button class="btn-sm"        id="b64-dec" onclick="setB64('decode')">Decode</button>
+        </div>
+        <textarea class="input" id="b64-in" placeholder="Enter text…" rows="4" oninput="runB64()"></textarea>
+        <div class="output" id="b64-out" onclick="copyOut(this)">Result appears here</div>
+      </div>
+    </div>
+
+    <!-- ── JSON FORMATTER ──────────────────────────────────────────────── -->
+    <div class="tool-widget" id="json">
+      <div class="tool-header">
+        <span class="tool-icon">{}</span>
+        <h3>JSON Formatter</h3>
+      </div>
+      <div class="tool-body">
+        <div class="row">
+          <button class="btn-sm active" onclick="fmtJSON('format')">Format</button>
+          <button class="btn-sm"        onclick="fmtJSON('minify')">Minify</button>
+          <button class="btn-sm"        onclick="clearJSON()">Clear</button>
+        </div>
+        <textarea class="input" id="json-in" placeholder='{"key": "value"}' rows="5" oninput="validateJSON()"></textarea>
+        <div id="json-err" style="font-size:0.78rem;color:var(--danger);display:none;font-family:var(--mono);"></div>
+        <div class="output" id="json-out" onclick="copyOut(this)"
+          style="white-space:pre;max-height:200px;overflow:auto;font-size:0.75rem;line-height:1.5;">
+          Ergebnis erscheint hier
+        </div>
+      </div>
+    </div>
+
+    <!-- ── BOX SHADOW GENERATOR ────────────────────────────────────────── -->
+    <div class="tool-widget" id="shadow">
+      <div class="tool-header">
+        <span class="tool-icon">🌑</span>
+        <h3>Box Shadow Generator</h3>
+      </div>
+      <div class="tool-body">
+        <div class="range-group">
+          <label>X Offset: <span id="sh-xv">4px</span></label>
+          <input type="range" id="sh-x" min="-60" max="60" value="4" oninput="updShadow()" />
+        </div>
+        <div class="range-group">
+          <label>Y Offset: <span id="sh-yv">6px</span></label>
+          <input type="range" id="sh-y" min="-60" max="60" value="6" oninput="updShadow()" />
+        </div>
+        <div class="range-group">
+          <label>Blur: <span id="sh-bv">16px</span></label>
+          <input type="range" id="sh-b" min="0" max="100" value="16" oninput="updShadow()" />
+        </div>
+        <div class="range-group">
+          <label>Spread: <span id="sh-sv">0px</span></label>
+          <input type="range" id="sh-s" min="-40" max="40" value="0" oninput="updShadow()" />
+        </div>
+        <div class="row">
+          <label style="font-size:0.78rem;color:var(--muted);">Color</label>
+          <input type="color" id="sh-c" value="#000000" oninput="updShadow()"
+            style="width:38px;height:32px;border:none;padding:0;border-radius:6px;cursor:pointer;" />
+          <div class="range-group" style="flex:1;">
+            <label>Opacity: <span id="sh-ov">25%</span></label>
+            <input type="range" id="sh-o" min="0" max="100" value="25" oninput="updShadow()" />
+          </div>
+        </div>
+        <div id="sh-prev"
+          style="background:#fff;border-radius:10px;height:76px;display:flex;align-items:center;justify-content:center;color:#111;font-size:0.8rem;font-weight:600;">
+          Preview
+        </div>
+        <div class="output" id="sh-out" onclick="copyOut(this)">box-shadow: …</div>
+      </div>
+    </div>
+
+    <!-- ── LOREM IPSUM ─────────────────────────────────────────────────── -->
+    <div class="tool-widget" id="lorem">
+      <div class="tool-header">
+        <span class="tool-icon">📝</span>
+        <h3>Lorem Ipsum Generator</h3>
+      </div>
+      <div class="tool-body">
+        <div class="row">
+          <button class="btn-sm active" id="lrm-p" onclick="setLorem('paragraphs')">Paragraphs</button>
+          <button class="btn-sm"        id="lrm-s" onclick="setLorem('sentences')">Sentences</button>
+          <button class="btn-sm"        id="lrm-w" onclick="setLorem('words')">Words</button>
+        </div>
+        <div class="row">
+          <label style="font-size:0.78rem;color:var(--muted);white-space:nowrap;">Count:</label>
+          <input class="input" type="number" id="lrm-n" value="3" min="1" max="20"
+            style="width:72px;" oninput="genLorem()" />
+          <button class="btn-sm active" onclick="genLorem()">↺ neu</button>
+        </div>
+        <div class="output" id="lrm-out" onclick="copyOut(this)"
+          style="white-space:pre-wrap;max-height:220px;overflow:auto;font-size:0.75rem;line-height:1.6;cursor:pointer;">
+        </div>
+      </div>
+    </div>
+
+    <!-- ── DERDIEDAS ──────────────────────────────────────────────────── -->
+    <a href="derdiedas.html" style="text-decoration:none;">
+      <div class="tool-widget" style="border-color:rgba(163,230,53,0.25);transition:border-color 0.2s;" onmouseenter="this.style.borderColor='var(--accent)'" onmouseleave="this.style.borderColor='rgba(163,230,53,0.25)'">
+        <div class="tool-header">
+          <span class="tool-icon">🇩🇪</span>
+          <h3>derdiedas</h3>
+        </div>
+        <div class="tool-body" style="gap:8px;">
+          <p style="font-size:0.83rem;color:var(--muted);line-height:1.55;">
+            Web Dev articles in German — CSS, JavaScript, Git, Performance. Clear explanations, real examples.
+          </p>
+          <span style="font-family:var(--mono);font-size:0.72rem;color:var(--accent);">open sub-site →</span>
+        </div>
+      </div>
+    </a>
+
+    <!-- ── CSS GRADIENT GENERATOR ────────────────────────────────────────── -->
+    <div class="tool-widget" id="gradient">
+      <div class="tool-header">
+        <span class="tool-icon">🌈</span>
+        <h3>CSS Gradient Generator</h3>
+      </div>
+      <div class="tool-body">
+        <div class="row">
+          <button class="btn-sm active" id="grd-linear" onclick="setGrdType('linear')">Linear</button>
+          <button class="btn-sm"        id="grd-radial" onclick="setGrdType('radial')">Radial</button>
+        </div>
+        <div class="range-group" id="grd-angle-group">
+          <label>Angle: <span id="grd-av">135°</span></label>
+          <input type="range" id="grd-a" min="0" max="360" value="135" oninput="updGradient()" />
+        </div>
+        <div class="row">
+          <label style="font-size:0.78rem;color:var(--muted);">Color 1</label>
+          <input type="color" id="grd-c1" value="#a3e635" oninput="updGradient()"
+            style="width:38px;height:32px;border:none;padding:0;border-radius:6px;cursor:pointer;" />
+          <label style="font-size:0.78rem;color:var(--muted);">Color 2</label>
+          <input type="color" id="grd-c2" value="#2563eb" oninput="updGradient()"
+            style="width:38px;height:32px;border:none;padding:0;border-radius:6px;cursor:pointer;" />
+        </div>
+        <div id="grd-prev" style="height:80px;border-radius:10px;border:1px solid var(--border);transition:background 0.25s;"></div>
+        <div class="output" id="grd-out" onclick="copyOut(this)">background: …</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── DESKTOP APPS ────────────────────────────────────────────────────── -->
+  <div style="margin-top:60px;">
+    <p class="section-label">// desktop apps</p>
+    <h2 style="font-size:1.3rem;font-weight:700;letter-spacing:-0.5px;margin-bottom:6px;">Installable Software</h2>
+    <p class="section-sub">Apps that run on your computer — no cloud, no account, everything stays local.</p>
+
+    <div class="tools-grid" style="max-width:420px;">
+
+      <div class="tool-widget" style="border-color:var(--accent-border);">
+        <div class="tool-header">
+          <span class="tool-icon">📋</span>
+          <h3>r00t Clip</h3>
+          <span class="tag" style="margin-left:auto;font-size:0.62rem;">Desktop</span>
+        </div>
+        <div class="tool-body">
+          <p style="font-size:0.84rem;color:var(--muted);line-height:1.6;">
+            Saves everything you copy (Ctrl+C) to a local <code style="font-family:var(--mono);color:var(--accent);font-size:0.8em;">.txt</code> file automatically. Start/stop anytime, filter by type, manually save notes.
+          </p>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:5px;margin:6px 0 2px;">
+            <li style="font-size:0.81rem;color:var(--muted);padding-left:14px;position:relative;"><span style="position:absolute;left:0;color:var(--accent);">→</span>Clipboard auto-logger (500 ms polling)</li>
+            <li style="font-size:0.81rem;color:var(--muted);padding-left:14px;position:relative;"><span style="position:absolute;left:0;color:var(--accent);">→</span>Manual note input — save anything instantly</li>
+            <li style="font-size:0.81rem;color:var(--muted);padding-left:14px;position:relative;"><span style="position:absolute;left:0;color:var(--accent);">→</span>Filter: all text or URLs only</li>
+            <li style="font-size:0.81rem;color:var(--muted);padding-left:14px;position:relative;"><span style="position:absolute;left:0;color:var(--accent);">→</span>100% local — no internet, no tracking</li>
+          </ul>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">
+            <span style="font-family:var(--mono);font-size:0.68rem;color:var(--muted);">Windows · Electron · open source</span>
+            <a href="tools/r00t-clip/BUILD.md" class="btn btn-primary" style="font-size:0.78rem;padding:7px 16px;">↓ build it</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <span>r00t — made by <a href="https://nissy-portfolio-pi.vercel.app">nissy</a></span>
+    <div class="footer-links">
+      <a href="tools.html">tools</a>
+      <a href="derdiedas.html">derdiedas</a>
+      <a href="hire.html">hire me</a>
+    </div>
+    <span>© 2026 — free forever</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

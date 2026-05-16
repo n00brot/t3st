@@ -1,2 +1,4 @@
 node_modules/
 .env
+tools/r00t-clip/node_modules/
+tools/r00t-clip/dist/
